@@ -1,4 +1,4 @@
-package src.com.coderscampus.arraylist;
+package com.coderscampus.arraylist;
 
 public class CustomArrayList<T> implements CustomList<T> {
     Object[] items = new Object[10];
@@ -15,6 +15,29 @@ public class CustomArrayList<T> implements CustomList<T> {
     }
 
     @Override
+    public boolean add(int index, T item) throws IndexOutOfBoundsException {
+        if (index < 0 || index > size) {
+            throw (new IndexOutOfBoundsException("Index " + index + " is invalid."));
+        } else {
+            if (items.length == size) {
+                resizeArray();
+            }
+            Object[] temp = new Object[items.length];
+            int added = 0;
+            for (int i = 0; i < size; i++) {
+                if (index == i) {
+                    temp[i] = item;
+                    added = 1;
+                }
+                temp[i + added] = items[i];
+            }
+            items = temp;
+            size++;
+        }
+        return true;
+    }
+
+    @Override
     public int getSize() {
         return size;
     }
@@ -27,6 +50,29 @@ public class CustomArrayList<T> implements CustomList<T> {
         } else {
             return (T) items[index];
         }
+    }
+
+    @Override
+    public T remove(int index) throws IndexOutOfBoundsException {
+        T removedItem = null;
+        if (index < 0 || index >= size) {
+            throw (new IndexOutOfBoundsException("Index " + index + " is invalid."));
+        } else {
+            Object[] temp = new Object[items.length];
+            int removed = 0;
+            for (int i = 0; i < size ; i++) {
+                if (index != i) {
+                    temp[i - removed] = items[i];
+                } else {
+                    removed = 1;
+                    removedItem = (T) items[i];
+                }
+            }
+            items = temp;
+            size--;
+
+        }
+        return removedItem;
     }
 
     private void resizeArray() {
