@@ -25,31 +25,23 @@ public class CustomArrayListTest {
         assert true;
         assertEquals(5, sut.getSize());
     }
-    @Test
+
+    @Test(expected = IndexOutOfBoundsException.class)
     public void should_fail_adding_at_negative_index_to_the_list() {
         CustomList<String> sut = new CustomArrayList<>();
         sut.add("one");
         sut.add("two");
         sut.add("four");
-        try {
-            sut.add(-2, "three");
-            assert false;
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
-        }
+        sut.add(-2, "three");
     }
-    @Test
+
+    @Test(expected = IndexOutOfBoundsException.class)
     public void should_fail_adding_at_larger_than_size_index_to_the_list() {
         CustomList<String> sut = new CustomArrayList<>();
         sut.add("one");
         sut.add("two");
         sut.add("four");
-        try {
-            sut.add(4, "three");
-            assert false;
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
-        }
+        sut.add(4, "three");
     }
 
     @Test
@@ -68,31 +60,59 @@ public class CustomArrayListTest {
         assertEquals("two", result);
         assertEquals(0, sut.getSize());
     }
-    @Test
+
+    @Test(expected = IndexOutOfBoundsException.class)
     public void should_fail_removing_at_negative_index_from_the_list() {
         CustomList<String> sut = new CustomArrayList<>();
         sut.add("one");
         sut.add("two");
         sut.add("four");
-        try {
-            sut.remove(-2);
-            assert false;
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
-        }
+        sut.remove(-2);
     }
-    @Test
+
+    @Test(expected = IndexOutOfBoundsException.class)
     public void should_fail_removing_at_larger_than_size_index_from_the_list() {
         CustomList<String> sut = new CustomArrayList<>();
         sut.add("one");
         sut.add("two");
         sut.add("four");
-        try {
-            sut.remove(4);
-            assert false;
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+        sut.remove(4);
+    }
+
+    //Assignment 5 tests
+    @Test
+    public void must_be_able_to_get_all_valid_elements() {
+        CustomList<String> myCustomList = getStringCustomList();
+        for (int i = 0; i < myCustomList.getSize(); i++) {
+            assertEquals(myCustomList.get(i), "element " + (i + 1));
         }
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void should_fail_getting_negative_index() {
+        CustomList<String> myCustomList = getStringCustomList();
+        myCustomList.get(-10);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void should_fail_getting_out_of_bound_index() {
+        CustomList<String> myCustomList = getStringCustomList();
+        myCustomList.get(45);
+    }
+
+    @Test
+    public void must_add_element_to_the_end() { //to cover resizeArray()
+        CustomList<String> myCustomList = getStringCustomList();
+        for (int i = 1; i <= 35; i++)
+            myCustomList.add("element " + (i + 45));
+        myCustomList.add(79, "new element");
+        assertEquals("new element", myCustomList.get(79));
+    }
+
+    private static CustomList<String> getStringCustomList() {
+        CustomList<String> myCustomList = new CustomArrayList<>();
+        for (int i = 1; i <= 45; i++)
+            myCustomList.add("element " + i);
+        return myCustomList;
+    }
 }
