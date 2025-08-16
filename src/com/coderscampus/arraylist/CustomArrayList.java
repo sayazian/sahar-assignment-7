@@ -31,7 +31,10 @@ public class CustomArrayList<T> implements CustomList<T> {
                 }
                 temp[i + added] = items[i];
             }
-            items = temp;
+            if (added == 0) {
+                temp[size] = item;
+            }
+                items = temp;
             size++;
         }
         return true;
@@ -60,7 +63,7 @@ public class CustomArrayList<T> implements CustomList<T> {
         } else {
             Object[] temp = new Object[items.length];
             int removed = 0;
-            for (int i = 0; i < size ; i++) {
+            for (int i = 0; i < size; i++) {
                 if (index != i) {
                     temp[i - removed] = items[i];
                 } else {

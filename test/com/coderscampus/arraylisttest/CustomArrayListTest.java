@@ -107,6 +107,16 @@ public class CustomArrayListTest {
             myCustomList.add("element " + (i + 45));
         myCustomList.add(79, "new element");
         assertEquals("new element", myCustomList.get(79));
+        assertEquals("element 80", myCustomList.get(80));
+    }
+
+    @Test
+    public void should_add_item_at_last_available_index() {
+        CustomList<String> myCustomList = new CustomArrayList<>();
+        for (int i = 1; i <= 10; i++)
+            myCustomList.add("element " + (i));
+        myCustomList.add(10, "new element");
+        assertEquals("new element", myCustomList.get(10));
     }
 
     private static CustomList<String> getStringCustomList() {
